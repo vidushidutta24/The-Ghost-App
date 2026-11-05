@@ -1,0 +1,28 @@
+/* app.css — ghost container layout */
+
+.ghost-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  cursor: grab;
+  position: relative;    /* anchor for the welcome bubble */
+}
+
+.ghost-container.dragging {
+  cursor: grabbing;
+}
+
+/* Control strip (ModeToggle + optional MoodSelector) */
+.ghost-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: auto;
+}
+

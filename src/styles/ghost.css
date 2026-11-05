@@ -1,0 +1,110 @@
+/* ghost.css — Ghost character rendering and animations */
+
+.ghost-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ghost-img {
+  width: 280px;
+  max-width: 100%;
+  height: auto;
+  image-rendering: pixelated;   /* preserve crisp pixel art */
+  image-rendering: crisp-edges;
+  background: transparent;
+  filter: drop-shadow(0 10px 24px rgba(80, 0, 160, 0.4));
+  transition: opacity 0.25s ease, filter 0.3s ease;
+  will-change: transform;
+  pointer-events: auto;
+}
+
+/* ---- Neutral: gentle, calm idle floating (observing) ---- */
+.ghost-img--float {
+  animation: ghost-float 3.6s ease-in-out infinite;
+}
+@keyframes ghost-float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-7px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ---- Happy: cheerful buoyant bob with vibrant glow ---- */
+.ghost-img--bounce,
+.ghost-img--happy {
+  animation: ghost-happy 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 10px 26px rgba(130, 40, 240, 0.55));
+}
+@keyframes ghost-happy {
+  0%   { transform: translateY(0px) scale(1); }
+  50%  { transform: translateY(-11px) scale(1.02); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+/* ---- Sad: slow melancholy droop ---- */
+.ghost-img--droop {
+  animation: ghost-droop 4.5s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(40, 0, 80, 0.3));
+}
+@keyframes ghost-droop {
+  0%   { transform: translateY(0px) rotate(-1deg); }
+  50%  { transform: translateY(6px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(-1deg); }
+}
+
+/* ---- Angry: quick agitated shake ---- */
+.ghost-img--agitated {
+  animation: ghost-agitated 0.3s ease-in-out infinite;
+  filter: drop-shadow(0 10px 20px rgba(200, 20, 0, 0.5));
+}
+@keyframes ghost-agitated {
+  0%   { transform: translateX(0px) rotate(0deg); }
+  25%  { transform: translateX(-3px) rotate(-2deg); }
+  75%  { transform: translateX(3px) rotate(2deg); }
+  100% { transform: translateX(0px) rotate(0deg); }
+}
+
+/* ---- Surprised: quick pop-up bounce ---- */
+.ghost-img--perky {
+  animation: ghost-perky 0.8s ease-out infinite;
+  filter: drop-shadow(0 12px 28px rgba(160, 80, 255, 0.6));
+}
+@keyframes ghost-perky {
+  0%   { transform: translateY(0px) scale(1); }
+  20%  { transform: translateY(-16px) scale(1.08); }
+  50%  { transform: translateY(-4px) scale(1.02); }
+  70%  { transform: translateY(-10px) scale(1.05); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+/* ---- Sleepy: very slow drift with slight tilt ---- */
+.ghost-img--drowsy {
+  animation: ghost-drowsy 6s ease-in-out infinite;
+  filter: drop-shadow(0 6px 10px rgba(40, 0, 80, 0.25));
+}
+@keyframes ghost-drowsy {
+  0%   { transform: translateY(0px) rotate(-2deg); }
+  50%  { transform: translateY(-4px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(-2deg); }
+}
+
+/* ---- Legacy aliases (keep existing animation names working) ---- */
+.ghost-img--idle    { animation: ghost-float   3.5s ease-in-out infinite; }
+.ghost-img--excited { animation: ghost-perky   0.8s ease-out     infinite; filter: drop-shadow(0 10px 28px rgba(140, 0, 255, 0.65)); }
+.ghost-img--curious { animation: ghost-curious 2s   ease-in-out  infinite; }
+@keyframes ghost-curious {
+  0%   { transform: translateY(0px) rotate(0deg);   }
+  25%  { transform: translateY(-8px) rotate(-5deg); }
+  75%  { transform: translateY(-4px) rotate(5deg);  }
+  100% { transform: translateY(0px) rotate(0deg);   }
+}
+
+/* ---- Hover glow (extra personality) ---- */
+.ghost-img:hover {
+  filter: drop-shadow(0 12px 24px rgba(100, 0, 220, 0.65));
+}
+

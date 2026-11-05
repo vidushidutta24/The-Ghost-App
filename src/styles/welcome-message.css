@@ -1,0 +1,90 @@
+/* welcome-message.css — Ghost speech bubble on session start */
+
+.welcome-bubble {
+  position: absolute;
+  /* Sit above the ghost image — roughly the top third of the window */
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+
+  min-width: 160px;
+  max-width: 280px;
+  padding: 10px 16px 11px;
+
+  background: rgba(8, 0, 20, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(160, 100, 255, 0.35);
+  border-radius: 14px;
+
+  /* Subtle tail pointing down toward ghost */
+  box-shadow:
+    0 4px 24px rgba(100, 40, 200, 0.3),
+    0 1px 0 rgba(160, 100, 255, 0.15) inset;
+
+  text-align: center;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Triangle tail */
+.welcome-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(160, 100, 255, 0.35);
+}
+
+/* ── Fade in ── */
+.welcome-bubble--in {
+  animation: bubble-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes bubble-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-6px) scale(0.92); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1);    }
+}
+
+/* ── Visible (after in finishes) ── */
+.welcome-bubble--visible {
+  opacity: 1;
+}
+
+/* ── Fade out ── */
+.welcome-bubble--out {
+  animation: bubble-out 0.6s ease-in forwards;
+}
+@keyframes bubble-out {
+  from { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1);    }
+  to   { opacity: 0; transform: translateX(-50%) translateY(-4px) scale(0.95); }
+}
+
+/* ── Text ── */
+.welcome-bubble__primary {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: rgba(220, 200, 255, 0.95);
+  line-height: 1.4;
+}
+
+.welcome-bubble__secondary {
+  margin: 4px 0 0;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(180, 160, 230, 0.7);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+

@@ -1,0 +1,39 @@
+/* global.css — base resets for the transparent Tauri window */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /*
+   * CRITICAL for Wayland/Linux transparency:
+   * WebKit2GTK paints a white background unless the root element and body
+   * are explicitly set transparent. The `background-color: transparent`
+   * on <html> propagates to the WebKit compositor layer.
+   */
+  background-color: transparent !important;
+  background: transparent !important;
+  height: 100%;
+}
+
+body {
+  background-color: transparent !important;
+  background: transparent !important;
+  height: 100%;
+  overflow: hidden;
+  /* Prevent text selection while dragging */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+

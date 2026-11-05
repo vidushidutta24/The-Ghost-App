@@ -1,0 +1,61 @@
+/* mood-selector.css — debug mood picker panel */
+
+.mood-selector {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 10px;
+  max-width: 360px;
+  background: rgba(10, 0, 22, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 20px;
+  border: 1px solid rgba(140, 80, 255, 0.25);
+  /* sit at the bottom, don't take up drag area */
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.mood-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 6px;
+  min-width: 44px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(140, 80, 255, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  color: rgba(220, 200, 255, 0.75);
+}
+
+.mood-btn:hover {
+  background: rgba(100, 50, 180, 0.3);
+  border-color: rgba(160, 100, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.mood-btn--active {
+  background: rgba(100, 40, 200, 0.45);
+  border-color: rgba(180, 120, 255, 0.85);
+  color: #d8c8ff;
+}
+
+.mood-btn__emoji {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.mood-btn__label {
+  font-size: 9px;
+  font-family: monospace;
+  letter-spacing: 0.03em;
+  opacity: 0.8;
+}
+
