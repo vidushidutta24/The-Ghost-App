@@ -510,6 +510,227 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ── Weekly Screen Time Styles & View Toggle ── */
+.graph-view-toggle {
+  display: flex;
+  background: rgba(20, 8, 38, 0.85);
+  border: 1px solid rgba(189, 112, 255, 0.3);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.view-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--spooky-text-dim);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.view-toggle-btn:hover {
+  color: #fff;
+}
+.view-toggle-btn.active {
+  background: rgba(189, 112, 255, 0.28);
+  color: var(--neon-lavender);
+  box-shadow: 0 0 10px rgba(189, 112, 255, 0.35);
+}
+
+.weekly-graph-container {
+  padding: 14px 0 8px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.week-bars-track {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+}
+
+.week-day-column {
+  position: relative;
+  flex: 1;
+  max-width: 68px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+}
+
+.day-total-badge {
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-align: center;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.total-badge-text {
+  color: var(--neon-lavender);
+  text-shadow: 0 0 10px rgba(224, 170, 255, 0.4);
+}
+.day-today .total-badge-text {
+  color: var(--neon-purple);
+  text-shadow: 0 0 12px rgba(189, 112, 255, 0.6);
+  font-weight: 800;
+}
+.total-badge-placeholder {
+  color: rgba(168, 130, 221, 0.35);
+  font-size: 10px;
+}
+
+.week-bar-fill-wrapper {
+  width: 100%;
+  max-width: 44px;
+  height: calc(100% - 48px);
+  display: flex;
+  flex-direction: column-reverse;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(189, 112, 255, 0.12);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.week-day-column:hover .week-bar-fill-wrapper {
+  transform: translateY(-4px) scaleY(1.02);
+  background: rgba(189, 112, 255, 0.08);
+  border-color: rgba(189, 112, 255, 0.4);
+  box-shadow: 0 0 16px rgba(189, 112, 255, 0.3);
+}
+
+.day-today .week-bar-fill-wrapper {
+  border: 1.5px solid var(--neon-purple);
+  box-shadow: 0 0 14px rgba(189, 112, 255, 0.45);
+  background: rgba(189, 112, 255, 0.06);
+}
+
+.day-axis-labels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8px;
+  gap: 1px;
+}
+.day-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--spooky-text-dim);
+}
+.day-number {
+  font-size: 10px;
+  color: rgba(168, 130, 221, 0.6);
+}
+.day-today .day-name {
+  color: var(--neon-purple);
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(189, 112, 255, 0.5);
+}
+.day-today .day-number {
+  color: var(--neon-lavender);
+  font-weight: 700;
+}
+.today-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--neon-purple);
+  box-shadow: 0 0 6px var(--neon-purple);
+  margin-top: 2px;
+}
+
+.day-future {
+  opacity: 0.45;
+}
+
+/* Weekly Tooltip */
+.week-bar-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 5, 28, 0.96);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--neon-purple);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.75), 0 0 16px rgba(189, 112, 255, 0.35);
+  z-index: 40;
+  min-width: 170px;
+}
+.week-bar-tooltip .tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.week-bar-tooltip .tooltip-title {
+  font-weight: 700;
+  color: #fff;
+  font-size: 11px;
+}
+.tooltip-tag {
+  font-size: 8px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.tag-today {
+  background: rgba(189, 112, 255, 0.3);
+  color: var(--neon-lavender);
+  border: 1px solid var(--neon-purple);
+}
+.tag-past {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--spooky-text-dim);
+}
+.tooltip-divider {
+  height: 1px;
+  background: rgba(189, 112, 255, 0.15);
+  margin: 6px 0;
+}
+.week-bar-tooltip .tooltip-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  margin: 2px 0;
+}
+.tooltip-line.highlight-line {
+  color: var(--neon-lavender);
+  font-weight: 600;
+}
+.tooltip-top-app {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(189, 112, 255, 0.15);
+  font-size: 9px;
+  color: var(--spooky-text-dim);
+}
+.tooltip-top-app strong {
+  color: #c084fc;
 }
 .legend-group {
   display: flex;

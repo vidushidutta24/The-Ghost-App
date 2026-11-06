@@ -122,6 +122,9 @@ export default function Dashboard({ onClose }) {
             uptimeSecs={data.uptime_secs}
             activeSecs={data.active_usage_secs}
             idleSecs={data.idle_usage_secs}
+            weeklyTotalSecs={data.weekly_total_secs}
+            dailyAverageSecs={data.daily_average_secs}
+            todayTotalSecs={data.today_total_secs}
             currentApp={data.current_active_app}
             isIdle={data.is_idle}
           />
@@ -131,6 +134,12 @@ export default function Dashboard({ onClose }) {
         <section className="dashboard-section section-charts-grid">
           <div className="charts-col-left">
             <ScreenTimeGraph
+              weeklyStats={data.weekly_stats}
+              weeklyTotalSecs={data.weekly_total_secs}
+              weeklyActiveSecs={data.weekly_active_secs}
+              weeklyIdleSecs={data.weekly_idle_secs}
+              dailyAverageSecs={data.daily_average_secs}
+              todayTotalSecs={data.today_total_secs}
               hourlyStats={data.hourly_stats}
               activeTotalSecs={data.active_usage_secs}
               idleTotalSecs={data.idle_usage_secs}

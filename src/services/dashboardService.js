@@ -46,18 +46,118 @@ const DEFAULT_HOURLY = Array.from({ length: 24 }, (_, i) => {
   }
 })
 
+const DEFAULT_WEEKLY_STATS = [
+  {
+    date: '2026-11-02',
+    day_name: 'Mon',
+    date_num: '2',
+    full_label: 'Monday, Nov 2',
+    active_secs: 19200, // 5h 20m
+    idle_secs: 2700,   // 45m
+    total_secs: 21900,  // 6h 05m
+    is_today: false,
+    is_past: true,
+    is_future: false,
+    top_app: 'Visual Studio Code',
+  },
+  {
+    date: '2026-11-03',
+    day_name: 'Tue',
+    date_num: '3',
+    full_label: 'Tuesday, Nov 3',
+    active_secs: 23700, // 6h 35m
+    idle_secs: 3900,   // 1h 05m
+    total_secs: 27600,  // 7h 40m
+    is_today: false,
+    is_past: true,
+    is_future: false,
+    top_app: 'Visual Studio Code',
+  },
+  {
+    date: '2026-11-04',
+    day_name: 'Wed',
+    date_num: '4',
+    full_label: 'Wednesday, Nov 4',
+    active_secs: 17400, // 4h 50m
+    idle_secs: 2100,   // 35m
+    total_secs: 19500,  // 5h 25m
+    is_today: false,
+    is_past: true,
+    is_future: false,
+    top_app: 'Firefox',
+  },
+  {
+    date: '2026-11-05',
+    day_name: 'Thu',
+    date_num: '5',
+    full_label: 'Thursday, Nov 5',
+    active_secs: 21300, // 5h 55m
+    idle_secs: 3120,   // 52m
+    total_secs: 24420,  // 6h 47m
+    is_today: false,
+    is_past: true,
+    is_future: false,
+    top_app: 'Visual Studio Code',
+  },
+  {
+    date: '2026-11-06',
+    day_name: 'Fri',
+    date_num: '6',
+    full_label: 'Friday, Nov 6',
+    active_secs: 15600, // 4h 20m
+    idle_secs: 2400,   // 40m
+    total_secs: 18000,  // 5h 00m
+    is_today: true,
+    is_past: false,
+    is_future: false,
+    top_app: 'Visual Studio Code',
+  },
+  {
+    date: '2026-11-07',
+    day_name: 'Sat',
+    date_num: '7',
+    full_label: 'Saturday, Nov 7',
+    active_secs: 0,
+    idle_secs: 0,
+    total_secs: 0,
+    is_today: false,
+    is_past: false,
+    is_future: true,
+    top_app: '',
+  },
+  {
+    date: '2026-11-08',
+    day_name: 'Sun',
+    date_num: '8',
+    full_label: 'Sunday, Nov 8',
+    active_secs: 0,
+    idle_secs: 0,
+    total_secs: 0,
+    is_today: false,
+    is_past: false,
+    is_future: true,
+    top_app: '',
+  },
+]
+
 const DEFAULT_DASHBOARD_DATA = {
   uptime_secs: 5400,
   boot_timestamp: Math.floor(Date.now() / 1000) - 5400,
   session_start_secs: Math.floor(Date.now() / 1000) - 3600,
   session_duration_secs: 3600,
-  active_usage_secs: 3120,
-  idle_usage_secs: 480,
+  active_usage_secs: 15600,
+  idle_usage_secs: 2400,
   current_active_app: 'Visual Studio Code',
   current_context: 'coding',
   is_idle: false,
   idle_duration_secs: 0,
-  total_tracked_active_secs: 3120,
+  total_tracked_active_secs: 15600,
+  weekly_stats: DEFAULT_WEEKLY_STATS,
+  weekly_total_secs: 111420, // ~30h 57m
+  weekly_active_secs: 97200, // ~27h 00m
+  weekly_idle_secs: 14220,  // ~3h 57m
+  daily_average_secs: 22284, // ~6h 11m
+  today_total_secs: 18000,   // ~5h 00m
   app_usages: [
     {
       name: 'Visual Studio Code',
