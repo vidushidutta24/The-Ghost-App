@@ -41,6 +41,20 @@
   border-color: rgba(180, 120, 255, 0.7);
 }
 
+.mode-btn--dashboard {
+  color: #e0aaff;
+  background: rgba(123, 44, 191, 0.28);
+  border-color: rgba(189, 112, 255, 0.45);
+  box-shadow: 0 0 10px rgba(189, 112, 255, 0.2);
+}
+
+.mode-btn--dashboard:hover {
+  color: #ffffff;
+  background: rgba(189, 112, 255, 0.45);
+  border-color: #bd70ff;
+  box-shadow: 0 0 14px rgba(189, 112, 255, 0.55);
+}
+
 .mode-toggle__info {
   font-size: 9px;
   font-family: monospace;

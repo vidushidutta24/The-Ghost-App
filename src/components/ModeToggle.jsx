@@ -6,7 +6,7 @@
  */
 import '../styles/mode-toggle.css'
 
-function ModeToggle({ mode, onToggle, activityInfo, onGreet }) {
+function ModeToggle({ mode, onToggle, activityInfo, onGreet, onOpenDashboard }) {
   const isAuto = mode === 'auto'
 
   return (
@@ -36,6 +36,15 @@ function ModeToggle({ mode, onToggle, activityInfo, onGreet }) {
         title="Trigger greeting bubble"
       >
         💬
+      </button>
+
+      {/* Button to open the full spooky Dashboard */}
+      <button
+        className="mode-btn mode-btn--dashboard"
+        onClick={(e) => { e.stopPropagation(); onOpenDashboard?.() }}
+        title="Open Fullscreen Digital Ghost Dashboard"
+      >
+        ✦ DASHBOARD
       </button>
 
       {/* Activity info pill — only shown in AUTO mode */}

@@ -64,23 +64,72 @@ pub fn start_monitor(app: AppHandle) {
 // ─── Main polling loop ────────────────────────────────────────────────────────
 
 fn run_loop(app: AppHandle) {
+    use tauri::Manager;
     let start = Instant::now();
     let mut active_session_start: Option<Instant> = None;
+    let mut tick_counter: u64 = 0;
 
     loop {
-        let snapshot = sample(&start, &mut active_session_start);
+        let procs = running_process_names();
+        let idle_secs = detect_idle_secs();
+        let is_idle = idle_secs >= IDLE_THRESHOLD_SECS;
 
-        // Emit to all open webview windows.
+        if is_idle {
+            active_session_start = None;
+        } else if active_session_start.is_none() {
+            active_session_start = Some(Instant::now());
+        }
+
+        let long_session = active_session_start
+            .map(|t| t.elapsed().as_secs() >= LONG_SESSION_MINS * 60)
+            .unwrap_or(false);
+
+        let window_name = detect_active_window();
+        let (context, application) = classify(&window_name, &procs, is_idle);
+
+        let snapshot = ActivityState {
+            context: context.clone(),
+            application: application.clone(),
+            duration: start.elapsed().as_secs(),
+            idle: is_idle,
+            idle_secs,
+            timestamp: unix_now(),
+            long_session,
+        };
+
+        // Emit activity state for ghost mood & floating widget
         if let Err(e) = app.emit("activity-update", &snapshot) {
             eprintln!("[activity] emit error: {e}");
+        }
+
+        // Update real stats & emit dashboard data
+        tick_counter += 1;
+        if let Some(stats_state) = app.try_state::<crate::stats::StatsState>() {
+            let mut tracker = stats_state.0.lock().unwrap();
+            tracker.record_tick(&application, is_idle, POLL_SECS);
+
+            if tick_counter % 6 == 0 {
+                tracker.save_persisted();
+            }
+
+            let dashboard_data = tracker.get_dashboard_data(
+                &application,
+                &context,
+                is_idle,
+                idle_secs,
+                &procs,
+            );
+
+            let _ = app.emit("dashboard-update", &dashboard_data);
         }
 
         std::thread::sleep(Duration::from_secs(POLL_SECS));
     }
 }
 
-// ─── Sampling ─────────────────────────────────────────────────────────────────
+// ─── Sampling (retained for backward compatibility) ───────────────────────────
 
+#[allow(dead_code)]
 fn sample(start: &Instant, active_session_start: &mut Option<Instant>) -> ActivityState {
     let procs = running_process_names();
     let idle_secs = detect_idle_secs();

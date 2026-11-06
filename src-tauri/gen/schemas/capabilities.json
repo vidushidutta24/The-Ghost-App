@@ -1,1 +1,1 @@
-{"default":{"identifier":"default","description":"Default capabilities for Digital Ghost","local":true,"windows":["ghost"],"permissions":["core:default","core:event:default","opener:default"]}}
+{"default":{"identifier":"default","description":"Default capabilities for Digital Ghost","local":true,"windows":["ghost","dashboard"],"permissions":["core:default","core:event:default","opener:default"]}}
