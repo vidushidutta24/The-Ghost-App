@@ -41,6 +41,13 @@
   border-color: rgba(180, 120, 255, 0.7);
 }
 
+.mode-btn--pinned {
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.22);
+  border-color: rgba(255, 209, 102, 0.65);
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.35);
+}
+
 .mode-btn--dashboard {
   color: #e0aaff;
   background: rgba(123, 44, 191, 0.28);

@@ -6,7 +6,7 @@
  */
 import '../styles/mode-toggle.css'
 
-function ModeToggle({ mode, onToggle, activityInfo, onGreet, onOpenDashboard }) {
+function ModeToggle({ mode, onToggle, activityInfo, onGreet, onOpenDashboard, isPinned, onTogglePin }) {
   const isAuto = mode === 'auto'
 
   return (
@@ -27,6 +27,15 @@ function ModeToggle({ mode, onToggle, activityInfo, onGreet, onOpenDashboard }) 
         title="Manually pick the Ghost's mood"
       >
         DEBUG
+      </button>
+
+      {/* Button to pin on top vs let it stay behind other windows */}
+      <button
+        className={`mode-btn ${isPinned ? 'mode-btn--pinned' : ''}`}
+        onClick={(e) => { e.stopPropagation(); onTogglePin?.() }}
+        title={isPinned ? 'Unpin: stay behind other windows' : 'Pin: stay on top of other windows'}
+      >
+        {isPinned ? '📌' : '📍'}
       </button>
 
       {/* Button to re-trigger Ghost greeting anytime */}

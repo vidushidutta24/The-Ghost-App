@@ -20,6 +20,7 @@ function App() {
   const [showWelcome, setShowWelcome]     = useState(true)       // cleared after bubble dismisses
   const [inWindowDashboard, setInWindowDashboard] = useState(false)
   const [isDashboardWindow, setIsDashboardWindow] = useState(false)
+  const [isPinned, setIsPinned]           = useState(false)      // always-on-top toggle
   const { mood, setMood }                 = useGhostMood()
   const activity                          = useActivityState()
   const sessionCtx                        = useSessionContext()  // null until Rust responds
@@ -30,6 +31,8 @@ function App() {
       const win = getCurrentWindow()
       if (win && win.label === 'dashboard') {
         setIsDashboardWindow(true)
+      } else if (win && win.label === 'ghost') {
+        invoke('show_ghost_window').catch(() => {})
       }
     } catch {
       // In browser preview
@@ -47,13 +50,6 @@ function App() {
     window.addEventListener('hashchange', handleHash)
     return () => window.removeEventListener('hashchange', handleHash)
   }, [])
-
-  // ── Show window on mount (Wayland flash-prevention for ghost window) ─────
-  useEffect(() => {
-    if (!isDashboardWindow) {
-      invoke('show_ghost_window').catch(() => {})
-    }
-  }, [isDashboardWindow])
 
   // ── Welcome scene: set mood from session context briefly ─────────────────
   useEffect(() => {
@@ -89,6 +85,16 @@ function App() {
   const handleGreet = useCallback(() => {
     setShowWelcome(true)
   }, [])
+
+  const handleTogglePin = useCallback(async () => {
+    const next = !isPinned
+    setIsPinned(next)
+    try {
+      await invoke('set_ghost_always_on_top', { alwaysOnTop: next })
+    } catch (e) {
+      console.warn('Failed to toggle always-on-top:', e)
+    }
+  }, [isPinned])
 
   // ── Open Dashboard: opens dedicated maximized window in Tauri, or toggles in browser ──
   const handleOpenDashboard = useCallback(async () => {
@@ -143,6 +149,8 @@ function App() {
           activityInfo={activity}
           onGreet={handleGreet}
           onOpenDashboard={handleOpenDashboard}
+          isPinned={isPinned}
+          onTogglePin={handleTogglePin}
         />
         {mode === 'debug' && (
           <MoodSelector mood={mood} setMood={setMood} />

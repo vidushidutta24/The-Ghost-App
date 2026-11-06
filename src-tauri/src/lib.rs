@@ -13,20 +13,6 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
-            let window = app.get_webview_window("ghost").unwrap();
-
-            // On Linux/Wayland: hide on startup to prevent white flash.
-            // Frontend reveals it via show_ghost_window once React has painted.
-            #[cfg(target_os = "linux")]
-            {
-                window.hide().unwrap();
-                let w = window.clone();
-                std::thread::spawn(move || {
-                    std::thread::sleep(std::time::Duration::from_millis(600));
-                    let _ = w.show();
-                });
-            }
-
             // ── Session Manager ───────────────────────────────────────────────
             // Reads previous session from disk, computes away-time, starts new
             // session entry, then keeps the end-time fresh via a heartbeat.
@@ -48,6 +34,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             show_ghost_window,
+            set_ghost_always_on_top,
             get_session_snapshot,
             get_dashboard_data,
             open_dashboard,
@@ -57,11 +44,25 @@ pub fn run() {
         .expect("error while running tauri application");
 }
 
-/// Called from JS once React has mounted and painted — reveals the window
-/// without the white flash on Linux/Wayland.
+/// Reveals the ghost window once React has mounted and painted.
+/// Specifically targets "ghost" so the hidden dashboard window is never shown.
 #[tauri::command]
-fn show_ghost_window(window: tauri::WebviewWindow) {
-    let _ = window.show();
+fn show_ghost_window(app: tauri::AppHandle) {
+    if let Some(ghost_win) = app.get_webview_window("ghost") {
+        let _ = ghost_win.show();
+    }
+}
+
+/// Allows the user to toggle whether the Ghost floats always-on-top or stays quietly behind.
+#[tauri::command]
+fn set_ghost_always_on_top(app: tauri::AppHandle, always_on_top: bool) -> Result<(), String> {
+    if let Some(ghost_win) = app.get_webview_window("ghost") {
+        ghost_win
+            .set_always_on_top(always_on_top)
+            .map_err(|e| e.to_string())
+    } else {
+        Err("ghost window not found".to_string())
+    }
 }
 
 /// Returns the session snapshot computed at startup.
